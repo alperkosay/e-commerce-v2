@@ -1,0 +1,1 @@
+## Strapi & Next.js 13
