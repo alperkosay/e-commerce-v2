@@ -1,26 +1,19 @@
-import Layout from '@/components/Layout/Layout'
-import Preloader from '@/components/Preloader'
-import { ThemeProvider } from '@/components/Providers/Providers';
-import api from '@/services/api'
+import Layout from "@/components/Layout/Layout";
+import { ThemeProvider } from "@/components/Providers/Providers";
 
 export default async function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode;
 }) {
-
-  const { data: navData, error } = await api.navigations.findMany();
-
-  return (
-    <ThemeProvider
-      attribute='class'
-      defaultTheme='system'
-      enableSystem
-      // disableTransitionOnChange
-    >
-      <Layout navData={navData}>
-        {children}
-      </Layout>
-    </ThemeProvider>
-  )
+    return (
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            // disableTransitionOnChange
+        >
+            <Layout>{children}</Layout>
+        </ThemeProvider>
+    );
 }
