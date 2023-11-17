@@ -24,16 +24,9 @@ export default function Cart() {
         <>
             <Sheet>
                 <SheetTrigger>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button size={"icon"}>
-                                <ShoppingCartIcon />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>Sepet</p>
-                        </TooltipContent>
-                    </Tooltip>
+                    <Button size={"icon"}>
+                        <ShoppingCartIcon />
+                    </Button>
                 </SheetTrigger>
                 <SheetContent>
                     <SheetHeader>
