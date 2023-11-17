@@ -1,11 +1,13 @@
 import Layout from "@/components/Layout/Layout";
 import { ThemeProvider } from "@/components/Providers/Providers";
+import api from "@/services/api";
 
 export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const { data } = await api.navigations.findMany();
     return (
         <ThemeProvider
             attribute="class"
@@ -13,7 +15,7 @@ export default async function RootLayout({
             enableSystem
             // disableTransitionOnChange
         >
-            <Layout>{children}</Layout>
+            <Layout navData={data}>{children}</Layout>
         </ThemeProvider>
     );
 }

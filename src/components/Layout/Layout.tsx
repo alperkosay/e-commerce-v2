@@ -12,12 +12,18 @@ const poppins = Poppins({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({
+    children,
+    navData,
+}: {
+    children: React.ReactNode;
+    navData: Navigation[];
+}) => {
     return (
         <React.Fragment>
             <TooltipProvider>
                 <div className={poppins.className}>
-                    <Header />
+                    <Header navData={navData} />
                     {children}
                     <Footer />
                 </div>

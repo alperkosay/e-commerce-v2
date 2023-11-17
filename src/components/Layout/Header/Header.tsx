@@ -10,8 +10,8 @@ import Logo from "../../Logo";
 import { SearchSkeleton } from "./Search";
 import { ThemeTogglerSkeleton } from "@/components/ui/theme-toggler";
 import { CartSkeleton } from "./Cart";
-import NavWrapper from "./NavWrapper";
-import MobileMenuWrapper from "./MobileMenuWrapper";
+import Navbar from "./Navbar";
+import MobileMenu from "./MobileMenu";
 const Cart = dynamic(() => import("./Cart"), {
     ssr: false,
     loading: CartSkeleton,
@@ -25,7 +25,7 @@ const Search = dynamic(() => import("./Search"), {
     loading: SearchSkeleton,
 });
 
-const Header = () => {
+const Header = ({ navData }: { navData: Navigation[] }) => {
     return (
         <header
             className={cn(
@@ -42,11 +42,11 @@ const Header = () => {
                 <div className="flex items-center gap-2 ">
                     <ThemeToggler />
                     <Cart />
-                    <MobileMenuWrapper />
+                    <MobileMenu navData={navData} />
                 </div>
             </div>
             <div className="container">
-                <NavWrapper />
+                <Navbar navData={navData} />
                 <div className="lg:hidden py-2 flex-1">
                     <Search />
                 </div>
