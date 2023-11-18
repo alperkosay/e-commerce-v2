@@ -13,9 +13,9 @@ export function ProductCard() {
         <div className="space-y-2">
             <div>
                 <Image
-                    src={"https://picsum.photos/300/500"}
-                    width={300}
-                    height={500}
+                    src={"https://picsum.photos/180/180"}
+                    width={180}
+                    height={180}
                     alt="alt"
                     className="w-full"
                 />

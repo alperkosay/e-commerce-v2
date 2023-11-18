@@ -1,15 +1,13 @@
 import sections from "./sections";
-import skillsList from "./skills-list";
-import projects from "./projects";
-import drawings from "./drawings";
 import navigations from "./navigations";
+import { findMany, findById, findBySlug } from "./core";
 
-const api = {
+findBySlug<{ product: number }[]>("/products", "steel-series-rival-3-rgb-oyuncu-mouse").then(data => {
+    console.log('data', data)
+})
+
+
+export default {
     sections,
-    skillsList,
-    projects,
-    drawings,
     navigations
 }
-
-export default api

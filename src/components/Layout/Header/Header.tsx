@@ -29,7 +29,7 @@ const Header = ({ navData }: { navData: Navigation[] }) => {
     return (
         <header
             className={cn(
-                "left-0 top-0 w-full pt-4 z-20 shadow  backdrop-blur-sm bg-white dark:bg-black dark:bg-opacity-50 bg-opacity-50"
+                "left-0 top-0 w-full pt-4 z-20 shadow dark:shadow-secondary backdrop-blur-sm bg-white dark:bg-black dark:bg-opacity-50 bg-opacity-50"
             )}
         >
             <div className="container flex justify-between items-center gap-6">

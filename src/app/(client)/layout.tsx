@@ -15,7 +15,8 @@ export default async function RootLayout({
             enableSystem
             // disableTransitionOnChange
         >
-            <Layout navData={data}>{children}</Layout>
+            {children}
+            {/* <Layout navData={data}></Layout> */}
         </ThemeProvider>
     );
 }
