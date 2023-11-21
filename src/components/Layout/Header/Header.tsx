@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
-import { Navigation } from "@/services/api/navigations/types";
+import { Navigation } from "@/services/api/navigation/types";
 
 import { cn } from "@/lib/utils";
 import Logo from "../../Logo";
@@ -29,7 +29,7 @@ const Header = ({ navData }: { navData: Navigation[] }) => {
     return (
         <header
             className={cn(
-                "left-0 top-0 w-full pt-4 z-20 shadow dark:shadow-secondary backdrop-blur-sm bg-white dark:bg-black dark:bg-opacity-50 bg-opacity-50"
+                "relative left-0 top-0 w-full pt-4 z-20 shadow dark:shadow-secondary backdrop-blur-sm bg-white dark:bg-black dark:bg-opacity-50 bg-opacity-50"
             )}
         >
             <div className="container flex justify-between items-center gap-6">

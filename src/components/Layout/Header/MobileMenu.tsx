@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Navigation } from "@/services/api/navigations/types";
+import { Navigation } from "@/services/api/navigation/types";
 import gsap from "gsap";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";

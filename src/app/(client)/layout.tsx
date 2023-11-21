@@ -7,7 +7,7 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const { data } = await api.navigations.findMany();
+    const { data } = await api.navigation.findMany();
     return (
         <ThemeProvider
             attribute="class"

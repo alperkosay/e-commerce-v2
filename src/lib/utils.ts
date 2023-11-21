@@ -21,13 +21,7 @@ export async function fetcher<T>(url: string, params?: RequestInit) {
             },
             ...params,
         });
-        const { data, meta, error }: Payload<T> = await response.json();
-
-        return {
-            data,
-            meta,
-            error: error ? true : false,
-        };
+        return (await response.json()) as Payload<T>;
     } catch (error) {
         console.log("error", error);
         throw new Error("Sunucu hatası");

@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { SearchIcon } from "lucide-react";
-import Image from "next/image";
 import {
     TooltipContent,
     Tooltip,
@@ -16,6 +15,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import useClickOutside from "@/hooks/useClickOutside";
 import useKeyClose from "@/hooks/useKeyClose";
 import { cn } from "@/lib/utils";
+import { Product } from "@/services/api/product/types";
+import api from "@/services/api";
+import { ProductCard, ProductCardSkeleton } from "@/components/Product/Product";
 
 export default function Search({ className }: { className?: string }) {
     const searchAreaRef = useRef<HTMLDivElement>(null);
@@ -23,10 +25,30 @@ export default function Search({ className }: { className?: string }) {
 
     const [isSearchMenuActive, setIsSearchMenuActive] =
         useState<boolean>(false);
+
+    const [searchResults, setSearchResults] = useState<Product[]>([]);
+    const [isSearching, setIsSearching] = useState<boolean>(false);
+    const [searchValue, setSearchValue] = useState<string>("");
+
     const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
+        setSearchValue(e.target.value);
         setIsSearchMenuActive(val.length > 0);
     };
+
+    useEffect(() => {
+        setIsSearching(true);
+
+        const searchDebounce = setTimeout(async () => {
+            if (searchValue.length) {
+                const { data } = await api.product.findByTitle(searchValue);
+                setSearchResults(data);
+            }
+            setIsSearching(false);
+        }, 1500);
+
+        return () => clearTimeout(searchDebounce);
+    }, [searchValue]);
 
     useClickOutside((e) => {
         if (
@@ -75,19 +97,18 @@ export default function Search({ className }: { className?: string }) {
                 >
                     <p className="font-medium text-lg">Bulunan ürünler...</p>
                     <ScrollArea className="h-[500px]">
-                        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 py-4 px-4">
-                            {[...Array(20)].map((_, idx) => (
-                                <div className="space-y-2" key={idx}>
-                                    <Image
-                                        src={"https://picsum.photos/150/200"}
-                                        width={150}
-                                        height={200}
-                                        alt="test"
-                                        className="w-full h-auto"
-                                    />
-                                    <p>Lorem ipsum dolor sit amet.</p>
-                                </div>
-                            ))}
+                        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4 py-4 px-4">
+                            {isSearching ? (
+                                [...Array(10)].map((_, idx) => (
+                                    <ProductCardSkeleton key={idx} />
+                                ))
+                            ) : searchResults.length ? (
+                                searchResults.map((data, idx) => (
+                                    <ProductCard productData={data} key={idx} />
+                                ))
+                            ) : (
+                                <p>Aradığınız ürün bulunamadı</p>
+                            )}
                         </div>
                     </ScrollArea>
                     <Button asChild variant={"link"}>

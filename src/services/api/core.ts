@@ -1,28 +1,67 @@
 import { fetcher } from "@/lib/utils";
 import qs from "qs";
+import { endpointType } from "./types";
 
+export class ApiService<T> {
+    private endpoint: endpointType;
 
-const qsMany = qs.stringify({
-    populate: "*"
-})
-export const findMany = async <T>(endpoint: string) => await fetcher<T>(`${endpoint}?${qsMany}`)
+    constructor(endpoint: endpointType) {
+        this.endpoint = endpoint;
+    }
 
-const qsById = qs.stringify({
-    populate: "*"
-})
-export const findById = async <T>(endpoint: string, id: number) => await fetcher<T>(`${endpoint}/${id}?${qsById}`);
-
-export const findBySlug = async <T>(endpoint: string, slug: string) => {
-
-    const qsSlug = qs.stringify({
-        filters: {
-            slug: {
-                $eq: slug
+    public async findMany() {
+        const qsMany = qs.stringify(
+            {
+                populate: "*",
+            },
+            {
+                encodeValuesOnly: true,
             }
-        },
-        populate: "*"
-    }, {
-        encodeValuesOnly: true
-    })
-    return await fetcher<T>(`${endpoint}?${qsSlug}`)
-};
+        );
+
+        return fetcher<T[]>(`${this.endpoint.plural}?${qsMany}`);
+    }
+
+    public async findById(id: number) {
+        const qsById = qs.stringify({
+            populate: "*",
+        });
+
+        return await fetcher<T>(`${this.endpoint.singular}/${id}?${qsById}`);
+    }
+
+    public async findBySlug(slug: string) {
+        const qsSlug = qs.stringify(
+            {
+                filters: {
+                    slug: {
+                        $eq: slug,
+                    },
+                },
+                populate: "*",
+            },
+            {
+                encodeValuesOnly: true,
+            }
+        );
+        return await fetcher<T[]>(`${this.endpoint.plural}?${qsSlug}`);
+    }
+
+    public async findByTitle(title: string) {
+        const _qs = qs.stringify(
+            {
+                filters: {
+                    title: {
+                        $contains: title,
+                    },
+                },
+                populate: "*",
+            },
+            {
+                encodeValuesOnly: true,
+            }
+        );
+
+        return await fetcher<T[]>(`${this.endpoint.plural}?${_qs}`);
+    }
+}

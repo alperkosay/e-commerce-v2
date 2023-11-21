@@ -4,7 +4,7 @@ import Footer from "./Footer/Footer";
 
 import { Chivo_Mono, Poppins } from "next/font/google";
 import Header from "./Header/Header";
-import { Navigation } from "@/services/api/navigations/types";
+import { Navigation } from "@/services/api/navigation/types";
 import { TooltipProvider } from "../ui/tooltip";
 
 const poppins = Poppins({
