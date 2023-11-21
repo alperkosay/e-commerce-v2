@@ -17,23 +17,26 @@ export function ProductCard({ productData }: { productData: Product }) {
 
     return (
         <Link
-            href={`/urunler/${productData.attributes.slug}`}
+            href={`/products/${productData.attributes.slug}`}
             className="space-y-2 flex flex-col group/product"
             title={productData.attributes.title}
         >
             <div className="relative flex overflow-hidden w-full">
                 {productData.attributes.productImages?.data?.map(
-                    (imageData, index) =>
-                        index === activeImage && (
-                            <Image
-                                src={imageData.attributes.url}
-                                width={imageData.attributes.width}
-                                height={imageData.attributes.height}
-                                alt={imageData.attributes.alternativeText || ""}
-                                className="w-full"
-                                key={index}
-                            />
-                        )
+                    (imageData, index) => (
+                        <Image
+                            src={imageData.attributes.url}
+                            width={imageData.attributes.width}
+                            height={imageData.attributes.height}
+                            alt={imageData.attributes.alternativeText || ""}
+                            className={`w-full transition-all duration-200 ${
+                                index === activeImage
+                                    ? "opacity-1 scale-100"
+                                    : "opacity-0 scale-105 -z-10 absolute"
+                            }`}
+                            key={index}
+                        />
+                    )
                 )}
                 <div className="absolute inset-0 flex">
                     {[
@@ -42,7 +45,7 @@ export function ProductCard({ productData }: { productData: Product }) {
                         ),
                     ].map((_, idx) => (
                         <div
-                            className="flex-1 h-full"
+                            className="flex-1 h-full flex items-end group"
                             key={idx}
                             onMouseOver={(e) => {
                                 setActiveImage(idx);
@@ -50,7 +53,9 @@ export function ProductCard({ productData }: { productData: Product }) {
                             onMouseOut={() => {
                                 setActiveImage(0);
                             }}
-                        ></div>
+                        >
+                            <div className="w-full transition-all duration-200 h-1/6 group-hover:h-3/6 bg-gradient-to-t from-primary to-transparent opacity-50 group-hover:opacity-70"></div>
+                        </div>
                     ))}
                 </div>
             </div>

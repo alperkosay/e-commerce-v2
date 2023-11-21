@@ -4,8 +4,8 @@ import Footer from "./Footer/Footer";
 
 import { Chivo_Mono, Poppins } from "next/font/google";
 import Header from "./Header/Header";
-import { Navigation } from "@/services/api/navigation/types";
 import { TooltipProvider } from "../ui/tooltip";
+import { Category } from "@/services/api/category/types";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -17,7 +17,7 @@ const Layout = ({
     navData,
 }: {
     children: React.ReactNode;
-    navData: Navigation[];
+    navData: Category[];
 }) => {
     return (
         <React.Fragment>

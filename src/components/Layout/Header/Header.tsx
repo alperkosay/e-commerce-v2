@@ -3,8 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
-import { Navigation } from "@/services/api/navigation/types";
-
 import { cn } from "@/lib/utils";
 import Logo from "../../Logo";
 import { SearchSkeleton } from "./Search";
@@ -12,6 +10,7 @@ import { ThemeTogglerSkeleton } from "@/components/ui/theme-toggler";
 import { CartSkeleton } from "./Cart";
 import Navbar from "./Navbar";
 import MobileMenu from "./MobileMenu";
+import { Category } from "@/services/api/category/types";
 const Cart = dynamic(() => import("./Cart"), {
     ssr: false,
     loading: CartSkeleton,
@@ -25,7 +24,7 @@ const Search = dynamic(() => import("./Search"), {
     loading: SearchSkeleton,
 });
 
-const Header = ({ navData }: { navData: Navigation[] }) => {
+const Header = ({ navData }: { navData: Category[] }) => {
     return (
         <header
             className={cn(
