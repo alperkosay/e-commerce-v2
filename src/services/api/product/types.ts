@@ -12,7 +12,7 @@ export interface Product {
         price: number;
         productImages?: { data: Media[] };
         slug?: string;
-        category?: { data: Category };
         discountedPrice?: number;
+        categories: { data: Category[] };
     };
 }

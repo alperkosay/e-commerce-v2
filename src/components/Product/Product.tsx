@@ -63,9 +63,16 @@ export function ProductCard({ productData }: { productData: Product }) {
                 <h2 className="text-xl font-semibold flex-1 line-clamp-3">
                     {productData.attributes.title}
                 </h2>
-                <p className="font-semibold text-primary">
-                    {productData.attributes.price} TL
-                </p>
+                <div className="space-y-1">
+                    {productData.attributes.discountedPrice && (
+                        <p className="line-through font-semibold text-muted-foreground text-sm">
+                            {productData.attributes.discountedPrice} TL
+                        </p>
+                    )}
+                    <p className="font-semibold text-primary">
+                        {productData.attributes.price} TL
+                    </p>
+                </div>
                 <Button className="w-full">Sepete Ekle</Button>
             </div>
         </Link>

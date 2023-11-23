@@ -7,7 +7,7 @@ export interface Category {
         title?: string;
         description?: string;
         slug?: string;
-        parentCategory?: { data: Category };
-        subCategories: { data: Category[] };
+        categories: { data: Category[] };
+        root_category: boolean;
     };
 }

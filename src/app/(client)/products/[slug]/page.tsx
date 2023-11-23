@@ -11,6 +11,14 @@ export default async function page({ params }: PageProps) {
     const productData = data[0];
     return (
         <div>
+            <ul className="flex gap-4">
+                {productData.attributes.categories.data.map((data, index) => (
+                    <>
+                        <li key={index}>{data.attributes.title}</li>
+                        <li> {">"}</li>
+                    </>
+                ))}
+            </ul>
             <Image
                 src={
                     productData.attributes.productImages?.data[0].attributes

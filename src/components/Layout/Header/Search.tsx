@@ -41,7 +41,10 @@ export default function Search({ className }: { className?: string }) {
 
         const searchDebounce = setTimeout(async () => {
             if (searchValue.length) {
-                const { data } = await api.product.findByTitle(searchValue);
+                const { data } = await api.product.findByCategoryOrTitle(
+                    searchValue
+                );
+                console.log("data", data);
                 setSearchResults(data);
             }
             setIsSearching(false);
