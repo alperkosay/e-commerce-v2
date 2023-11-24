@@ -57,7 +57,10 @@ class ProductService extends ApiService<Product> {
         return await fetcher<Product[]>(`${this.endpoint.plural}?${_qs}`);
     }
 }
-export default new ProductService({
+
+const service = new ProductService({
     plural: "/products",
     singular: "/product",
 });
+
+export default service;

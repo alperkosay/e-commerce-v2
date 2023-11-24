@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Navigation } from "@/services/api/navigation/types";
+import { Category } from "@/services/api/category/types";
 import gsap from "gsap";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 
-const MobileMenu = ({ navData }: { navData: Navigation[] }) => {
+const MobileMenu = ({ navData }: { navData: Category[] }) => {
     const [isActive, setIsActive] = useState<boolean>(false);
     const toggleActive = () => setIsActive((prev) => !prev);
 
@@ -46,7 +46,7 @@ const MobileMenu = ({ navData }: { navData: Navigation[] }) => {
                                 navData.map((data, index) => (
                                     <li onClick={toggleActive} key={index}>
                                         <Link
-                                            href={data.attributes.href || "/"}
+                                            href={`/${data.attributes.slug}`}
                                             title={data.attributes.title}
                                             className="py-4 inline-block text-3xl font-semibold"
                                         >
