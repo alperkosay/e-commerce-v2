@@ -24,8 +24,29 @@ class CategoryService extends ApiService<Category> {
         return await fetcher<Category[]>(`${this.endpoint.plural}?${_qs}`);
     }
 
-    
+
+    public async findCategoryTree(slug: string) {
+        const _qs = qs.stringify({
+            populate: {
+                categories: {
+                    populate: "*"
+                }
+            },
+            filters: {
+                categories: {
+                    slug: {
+                        $in: slug
+                    }
+                },
+
+            }
+        })
+
+        return await fetcher<Category[]>(`${this.endpoint.plural}?${_qs}`)
+    }
+
 }
+
 
 export default new CategoryService({
     singular: "/category",
