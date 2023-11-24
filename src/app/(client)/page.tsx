@@ -1,11 +1,12 @@
 import { ProductCard, ProductCardSkeleton } from "@/components/Product/Product";
 import Products from "./Products";
 import { Suspense } from "react";
+import ProductGrid from "@/components/Sections/Product/ProductGrid";
 
 export default async function Home() {
     return (
         <main className="min-h-[200vh]">
-            <div className="container my-20 grid grid-cols-4 gap-4">
+            <ProductGrid sectionTitle="Son gelen ürünler">
                 <Suspense
                     fallback={[...Array(4)].map((_, idx) => (
                         <ProductCardSkeleton key={idx} />
@@ -13,7 +14,7 @@ export default async function Home() {
                 >
                     <Products />
                 </Suspense>
-            </div>
+            </ProductGrid>
         </main>
     );
 }

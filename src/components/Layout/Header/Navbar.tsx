@@ -12,10 +12,8 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import { Category } from "@/services/api/category/types";
-import { Button } from "@/components/ui/button";
 
 const Navbar = ({ navData }: { navData: Category[] }) => {
-    console.log("navData", navData);
     return (
         <React.Fragment>
             <NavigationMenu className="max-lg:hidden">
@@ -50,25 +48,18 @@ const Navbar = ({ navData }: { navData: Category[] }) => {
                                                             <NavigationMenuLink
                                                                 asChild
                                                             >
-                                                                <Button
-                                                                    asChild
-                                                                    variant={
-                                                                        "link"
-                                                                    }
+                                                                <Link
+                                                                    href={`/${subMenuData.attributes.slug}`}
+                                                                    className="pt-3 inline-block w-max text-lg text-primary font-semibold"
                                                                 >
-                                                                    <Link
-                                                                        href={`/${subMenuData.attributes.slug}`}
-                                                                        className="p-6 py-2 inline-block w-max font-semibold"
-                                                                    >
-                                                                        {
-                                                                            subMenuData
-                                                                                .attributes
-                                                                                .title
-                                                                        }
-                                                                    </Link>
-                                                                </Button>
+                                                                    {
+                                                                        subMenuData
+                                                                            .attributes
+                                                                            .title
+                                                                    }
+                                                                </Link>
                                                             </NavigationMenuLink>
-                                                            <ul className="pl-2">
+                                                            <ul>
                                                                 {subMenuData.attributes.categories?.data?.map(
                                                                     (
                                                                         data,
@@ -84,7 +75,7 @@ const Navbar = ({ navData }: { navData: Category[] }) => {
                                                                             >
                                                                                 <Link
                                                                                     href={`/${data.attributes.slug}`}
-                                                                                    className="p-6 py-3 inline-block w-max"
+                                                                                    className="py-1.5 inline-block w-max"
                                                                                 >
                                                                                     {
                                                                                         data
@@ -101,7 +92,6 @@ const Navbar = ({ navData }: { navData: Category[] }) => {
                                                     )
                                                 )}
                                             </ul>
-                                            {/* <div className="w-full bg-red-300 h-40"></div> */}
                                         </div>
                                     </NavigationMenuContent>
                                 </NavigationMenuItem>

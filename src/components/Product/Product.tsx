@@ -23,20 +23,21 @@ export function ProductCard({ productData }: { productData: Product }) {
         >
             <div className="relative flex overflow-hidden w-full">
                 {productData.attributes.productImages?.data?.map(
-                    (imageData, index) => (
-                        <Image
-                            src={imageData.attributes.url}
-                            width={imageData.attributes.width}
-                            height={imageData.attributes.height}
-                            alt={imageData.attributes.alternativeText || ""}
-                            className={`w-full transition-all duration-200 ${
-                                index === activeImage
-                                    ? "opacity-1 scale-100"
-                                    : "opacity-0 scale-105 -z-10 absolute"
-                            }`}
-                            key={index}
-                        />
-                    )
+                    (imageData, index) =>
+                        index === activeImage && (
+                            <Image
+                                src={imageData.attributes.url}
+                                width={imageData.attributes.width}
+                                height={imageData.attributes.height}
+                                alt={imageData.attributes.alternativeText || ""}
+                                className={`w-full transition-all duration-200 ${
+                                    index === activeImage
+                                        ? "opacity-1 scale-100"
+                                        : "opacity-0 scale-105 -z-10 absolute"
+                                }`}
+                                key={index}
+                            />
+                        )
                 )}
                 <div className="absolute inset-0 flex">
                     {[
@@ -60,7 +61,7 @@ export function ProductCard({ productData }: { productData: Product }) {
                 </div>
             </div>
             <div className="p-3 flex flex-col flex-1 gap-3">
-                <h2 className="text-xl font-semibold flex-1 line-clamp-3">
+                <h2 className="text-lg md:text-xl leading-snug font-semibold flex-1 line-clamp-3">
                     {productData.attributes.title}
                 </h2>
                 <div className="space-y-1">

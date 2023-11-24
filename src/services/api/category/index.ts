@@ -23,6 +23,8 @@ class CategoryService extends ApiService<Category> {
 
         return await fetcher<Category[]>(`${this.endpoint.plural}?${_qs}`);
     }
+
+    
 }
 
 export default new CategoryService({

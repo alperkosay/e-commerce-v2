@@ -1,21 +1,30 @@
-import React from "react";
-import Products from "../Products";
+import React, { Suspense } from "react";
 import ProductsCategory from "./ProductsCategory";
+import ProductGrid from "@/components/Sections/Product/ProductGrid";
+import { ProductCardSkeleton } from "@/components/Product/Product";
+import api from "@/services/api";
+import { redirect } from "next/navigation";
 export type ParamsProps = {
     params: {
         slug: string;
     };
 };
-export default function page({params}:ParamsProps) {
+export default async function page({ params }: ParamsProps) {
+    const { data } = await api.category.findBySlug(params.slug);
+    if (!data.length) {
+        redirect("/");
+    }
     return (
         <main>
-            <section>
-                <div className="container">
-                    <div className="grid grid-cols-4 gap-10">
-                        <ProductsCategory params={params} />
-                    </div>
-                </div>
-            </section>
+            <ProductGrid sectionTitle={data[0]?.attributes.title}>
+                <Suspense
+                    fallback={[...Array(4)].map((_, index) => (
+                        <ProductCardSkeleton key={index} />
+                    ))}
+                >
+                    <ProductsCategory params={params} />
+                </Suspense>
+            </ProductGrid>
         </main>
     );
 }

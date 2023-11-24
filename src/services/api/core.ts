@@ -65,55 +65,5 @@ export class ApiService<T> {
         return await fetcher<T[]>(`${this.endpoint.plural}?${_qs}`);
     }
 
-    public async findByCategory(filterOpt: { title?: string; slug?: string }) {
-        const filter = filterOpt.title
-            ? {
-                  title: {
-                      $contains: filterOpt.title,
-                  },
-              }
-            : {
-                  slug: {
-                      $eq: filterOpt.slug,
-                  },
-              };
-        const _qs = qs.stringify(
-            {
-                filters: {
-                    categories: filter,
-                },
-                populate: "*",
-            },
-            { encodeValuesOnly: true }
-        );
-        return await fetcher<T[]>(`${this.endpoint.plural}?${_qs}`);
-    }
-    public async findByCategoryOrTitle(input: string) {
-        const _qs = qs.stringify(
-            {
-                filters: {
-                    $or: [
-                        {
-                            title: {
-                                $contains: input,
-                            },
-                        },
-                        {
-                            categories: {
-                                title: {
-                                    $contains: input,
-                                },
-                            },
-                        },
-                    ],
-                },
-                populate: "*",
-            },
-            {
-                encodeValuesOnly: true,
-            }
-        );
-        console.log("_qs", _qs);
-        return await fetcher<T[]>(`${this.endpoint.plural}?${_qs}`);
-    }
+    
 }
