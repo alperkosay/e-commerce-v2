@@ -53,7 +53,6 @@ class ProductService extends ApiService<Product> {
                 encodeValuesOnly: true,
             }
         );
-        console.log("_qs", _qs);
         return await fetcher<Product[]>(`${this.endpoint.plural}?${_qs}`);
     }
 }

@@ -1,4 +1,6 @@
+import { BrandName } from "@/lib/consts";
 import api from "@/services/api";
+import { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
 type PageProps = {
@@ -6,6 +8,16 @@ type PageProps = {
         slug: string;
     };
 };
+
+export async function generateMetadata({ params }: PageProps) {
+    const { data } = await api.product.findBySlug(params.slug);
+    const productData = data[0];
+    return {
+        title: `${BrandName} - ${productData.attributes.title}`,
+        description: productData.attributes.description,
+    } as Metadata;
+}
+
 export default async function page({ params }: PageProps) {
     const { data } = await api.product.findBySlug(params.slug);
     const productData = data[0];

@@ -24,6 +24,28 @@ class CategoryService extends ApiService<Category> {
         return await fetcher<Category[]>(`${this.endpoint.plural}?${_qs}`);
     }
 
+    public async findBySlug(slug: string): Promise<Payload<Category[]>> {
+        const _qs = qs.stringify(
+            {
+                populate: {
+                    categories: {
+                        populate: "*",
+                    },
+                },
+                filters: {
+                    slug: {
+                        $eq: slug,
+                    },
+                },
+            },
+            {
+                encodeValuesOnly: true,
+            }
+        );
+
+        return await fetcher<Category[]>(`${this.endpoint.plural}?${_qs}`);
+    }
+
     // public async findCategoryTree(slug: string): Promise<Payload<Category[]>> {
     //     const _qs = qs.stringify({
     //         populate: {

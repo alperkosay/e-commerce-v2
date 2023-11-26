@@ -11,9 +11,7 @@ export type ParamsProps = {
 };
 export default async function page({ params }: ParamsProps) {
     const { data } = await api.category.findBySlug(params.slug);
-    if (!data.length) {
-        redirect("/");
-    }
+    
     return (
         <main>
             <ProductGrid sectionTitle={data[0]?.attributes.title}>
