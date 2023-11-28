@@ -10,14 +10,17 @@ import {
     Tooltip,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useClickOutside from "@/hooks/useClickOutside";
 import useKeyClose from "@/hooks/useKeyClose";
 import { cn } from "@/lib/utils";
 import { Product } from "@/services/api/product/types";
 import api from "@/services/api";
-import { ProductCard, ProductCardSkeleton } from "@/components/Product/Product";
+import {
+    ProductCard,
+    ProductCardSkeleton,
+    ProductSearchCard,
+} from "@/components/Product/Product";
 
 export default function Search({ className }: { className?: string }) {
     const searchAreaRef = useRef<HTMLDivElement>(null);
@@ -44,7 +47,6 @@ export default function Search({ className }: { className?: string }) {
                 const { data } = await api.product.findByCategoryOrTitle(
                     searchValue
                 );
-                console.log("data", data);
                 setSearchResults(data);
             }
             setIsSearching(false);
@@ -100,23 +102,26 @@ export default function Search({ className }: { className?: string }) {
                 >
                     <p className="font-medium text-lg">Bulunan ürünler...</p>
                     <ScrollArea className="h-[500px]">
-                        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4 py-4 px-4">
+                        <div className="flex flex-col gap-y-4 py-4 px-4">
                             {isSearching ? (
                                 [...Array(10)].map((_, idx) => (
-                                    <ProductCardSkeleton key={idx} />
+                                    <ProductCardSkeleton
+                                        className="h-20"
+                                        key={idx}
+                                    />
                                 ))
                             ) : searchResults.length ? (
                                 searchResults.map((data, idx) => (
-                                    <ProductCard productData={data} key={idx} />
+                                    <ProductSearchCard
+                                        productData={data}
+                                        key={idx}
+                                    />
                                 ))
                             ) : (
                                 <p>Aradığınız ürün bulunamadı</p>
                             )}
                         </div>
                     </ScrollArea>
-                    <Button asChild variant={"link"}>
-                        <Link href={"/"}>Diğer ürünlere göz at...</Link>
-                    </Button>
                 </div>
             </div>
         </React.Fragment>

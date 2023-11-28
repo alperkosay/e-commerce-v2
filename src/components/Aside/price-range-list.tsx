@@ -20,18 +20,20 @@ export default function PriceRangeList() {
         }));
     };
     const HandleFilter = () => {
-        const _minPrice =
-            prices.minPrice > prices.maxPrice
-                ? prices.maxPrice
-                : prices.minPrice;
-        const _maxPrice =
-            prices.maxPrice < prices.minPrice
-                ? prices.minPrice
-                : prices.maxPrice;
+        const _maxPrice = Math.max(
+            Number(prices.minPrice),
+            Number(prices.maxPrice)
+        );
+        const _minPrice = Math.min(
+            Number(prices.minPrice),
+            Number(prices.maxPrice)
+        );
+
         const filterObject = {
             minPrice: _minPrice,
             maxPrice: _maxPrice,
         };
+
         setPrices(filterObject);
         setParam({
             minPrice: filterObject.minPrice.toString(),

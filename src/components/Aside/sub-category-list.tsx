@@ -4,15 +4,15 @@ import { Checkbox } from "../ui/checkbox";
 import { Payload } from "@/lib/utils";
 import api from "@/services/api";
 import { usePathname } from "next/navigation";
-import { CheckedState } from "@radix-ui/react-checkbox";
 import useFilters from "@/hooks/filterHooks/useFilters";
 import { ScrollArea } from "../ui/scroll-area";
 
 const CategoryItems = ({ categoryData }: { categoryData?: Category[] }) => {
-    const { setParam, removeParam, currentParams } = useFilters();
+    const { setParam, currentParams } = useFilters();
+
     const checkHandler = (checked: boolean, slug: string) => {
         const { category } = currentParams();
-
+        
         if (checked) {
             setParam({
                 category: Array.isArray(category)
@@ -20,7 +20,6 @@ const CategoryItems = ({ categoryData }: { categoryData?: Category[] }) => {
                     : [slug],
             });
         } else {
-            // Remove only the specific 'slug' from the category array
             if (Array.isArray(category)) {
                 const updatedCategories = category.filter(
                     (item) => item !== slug
@@ -66,7 +65,6 @@ export default function SubCategoryList() {
     const pathname = usePathname();
 
     useEffect(() => {
-        console.log("pathname", pathname);
         api.category.findBySlug(pathname.slice(1)).then((data) => {
             setCategories(data);
         });
@@ -78,7 +76,11 @@ export default function SubCategoryList() {
                 <p>Kategoriler</p>
                 <ScrollArea className="h-24 relative before:absolute before:-bottom-1 before:left-0 before:w-full before:h-4 before:from-background before:to-transparent before:bg-gradient-to-t before:pointer-events-none">
                     <ul className="space-y-2 pb-2">
-                        <CategoryItems categoryData={categories?.data} />
+                        <CategoryItems
+                            categoryData={
+                                categories?.data[0].attributes.categories?.data
+                            }
+                        />
                     </ul>
                 </ScrollArea>
             </div>

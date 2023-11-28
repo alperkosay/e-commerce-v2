@@ -20,7 +20,7 @@ class CategoryService extends ApiService<Category> {
                 encodeValuesOnly: true,
             }
         );
-
+console.log('this.endpoint.plural', this.endpoint.plural)
         return await fetcher<Category[]>(`${this.endpoint.plural}?${_qs}`);
     }
 

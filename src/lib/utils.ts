@@ -1,6 +1,7 @@
 import config from "@/config";
 import { Meta } from "@/services/api/types";
 import { type ClassValue, clsx } from "clsx";
+import qs from "qs";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -17,7 +18,7 @@ export async function fetcher<T>(url: string, params?: RequestInit) {
     try {
         const response = await fetch(`${config.strapiURL + url}`, {
             next: {
-                revalidate: 0,
+                revalidate: 15,
             },
             ...params,
         });
@@ -42,4 +43,11 @@ export function createSearchParams(params: {
         }
     });
     return searchParams;
+}
+
+export function qsParser(queryObj: { [key: string]: unknown }) {
+    const filterStringify = qs.stringify(queryObj, {
+        encodeValuesOnly: true,
+    });
+    return qs.parse(filterStringify);
 }

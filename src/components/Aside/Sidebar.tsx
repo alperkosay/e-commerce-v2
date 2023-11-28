@@ -4,6 +4,7 @@ import PriceRangeList from "./price-range-list";
 import { Skeleton } from "../ui/skeleton";
 import SubCategoryList from "./sub-category-list";
 import { Separator } from "../ui/separator";
+import FilterClear from "./filter-clear";
 
 export default function Sidebar() {
     return (
@@ -12,6 +13,8 @@ export default function Sidebar() {
             <PriceRangeList />
             <Separator />
             <SubCategoryList />
+            <Separator />
+            <FilterClear />
         </aside>
     );
 }

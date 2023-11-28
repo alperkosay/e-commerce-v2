@@ -5,7 +5,7 @@ const QueryKeys = ["minPrice", "maxPrice", "category"] as const;
 
 export type KeyType = (typeof QueryKeys)[number];
 
-type ParamType = {
+export type ParamType = {
     [key in KeyType]?: string | string[] | null | undefined;
 };
 
