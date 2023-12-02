@@ -12,7 +12,7 @@ const CategoryItems = ({ categoryData }: { categoryData?: Category[] }) => {
 
     const checkHandler = (checked: boolean, slug: string) => {
         const { category } = currentParams();
-        
+
         if (checked) {
             setParam({
                 category: Array.isArray(category)

@@ -1,5 +1,9 @@
 import CategoryBreadcrumb from "@/components/Breadcrumbs/CategoryBreadcrumb";
 import ProductImageSlider from "@/components/Product/ProductImageSlider";
+import { Button } from "@/components/ui/button";
+import Price from "@/components/ui/price";
+import ProductCount from "@/components/ui/product-count";
+import { Separator } from "@/components/ui/separator";
 import { BrandName } from "@/lib/consts";
 import api from "@/services/api";
 import { Metadata } from "next";
@@ -14,7 +18,7 @@ export async function generateMetadata({ params }: PageProps) {
     const { data } = await api.product.findBySlug(params.slug);
     const productData = data[0];
     return {
-        title: `${BrandName} - ${productData.attributes.title}`,
+        title: `${productData.attributes.title}`,
         description: productData.attributes.description,
     } as Metadata;
 }
@@ -31,10 +35,32 @@ export default async function page({ params }: PageProps) {
             </section>
             <section>
                 <div className="container">
-                    <div className="grid grid-cols-2 gap-20">
+                    <div className="flex flex-col md:grid grid-cols-2 gap-10">
                         <ProductImageSlider
                             productImages={productData.attributes.productImages}
                         />
+
+                        <div>
+                            <h1 className="text-bold text-2xl">
+                                {productData.attributes.title}
+                            </h1>
+                            <Separator className="my-4" />
+                            <div className="mt-2 mb-4">
+                                <p>{productData.attributes.description}</p>
+                            </div>
+                            <Price
+                                price={productData.attributes.price}
+                                discountedPrice={
+                                    productData.attributes.discountedPrice
+                                }
+                                discountedPriceSize="xl"
+                                priceSize="3xl"
+                            />
+                            <div className="flex my-4 gap-4">
+                                <ProductCount />
+                                <Button>Sepete Ekle</Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

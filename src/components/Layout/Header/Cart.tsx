@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -16,10 +17,31 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HorizontalProductCard } from "@/components/Product/Product";
+import { ProductCartItem } from "@/app/api/basket/route";
 
 export default function Cart() {
+    const [cartData, setCartData] = useState<ProductCartItem[]>([]);
+
+    const addProduct = () =>{
+        fetch("/api/basket",{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application'
+            },
+            body: JSON.stringify({count: 1, id: 4242} as ProductCartItem)
+        })
+    }
+    useEffect(() => {
+        fetch("/api/basket")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("data", data);
+            });
+
+            addProduct()
+    }, []);
     return (
         <>
             <Sheet>

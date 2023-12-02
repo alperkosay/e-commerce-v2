@@ -51,3 +51,12 @@ export function qsParser(queryObj: { [key: string]: unknown }) {
     });
     return qs.parse(filterStringify);
 }
+
+export function priceFormatter(price: number) {
+    const formatter = Intl.NumberFormat("tr-TR", {
+        style: "currency",
+        currency: "TRY",
+    });
+
+    return formatter.format(price);
+}

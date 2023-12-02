@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import Price from "../ui/price";
 
 type ProductCardType = {
     productData: Product;
@@ -69,16 +70,12 @@ export function ProductCard({ productData }: ProductCardType) {
                 <h2 className="text-lg md:text-xl leading-snug font-semibold flex-1 line-clamp-3">
                     {productData.attributes.title}
                 </h2>
-                <div className="space-y-1">
-                    {productData.attributes.discountedPrice && (
-                        <p className="line-through font-semibold text-muted-foreground text-sm">
-                            {productData.attributes.discountedPrice} TL
-                        </p>
-                    )}
-                    <p className="font-semibold text-primary">
-                        {productData.attributes.price} TL
-                    </p>
-                </div>
+                <Price
+                    price={productData.attributes.price}
+                    discountedPrice={productData.attributes.discountedPrice}
+                    priceSize="xl"
+                    discountedPriceSize="base"
+                />
                 <Button className="w-full">Sepete Ekle</Button>
             </div>
         </Link>
@@ -111,16 +108,10 @@ export function ProductSearchCard({ productData }: ProductCardType) {
                 <h2 className="text-base leading-tight font-medium flex-1 line-clamp-3">
                     {productData.attributes.title}
                 </h2>
-                <div className="space-y-1">
-                    {productData.attributes.discountedPrice && (
-                        <p className="line-through font-semibold text-muted-foreground text-xs">
-                            {productData.attributes.discountedPrice} TL
-                        </p>
-                    )}
-                    <p className="font-semibold text-primary text-sm">
-                        {productData.attributes.price} TL
-                    </p>
-                </div>
+                <Price
+                    price={productData.attributes.price}
+                    discountedPrice={productData.attributes.discountedPrice}
+                />
             </div>
         </Link>
     );

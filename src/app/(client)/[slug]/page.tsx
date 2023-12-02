@@ -4,6 +4,18 @@ import ProductGrid from "@/components/Sections/Product/ProductGrid";
 import { ProductCardSkeleton } from "@/components/Product/Product";
 import api from "@/services/api";
 import { ParamType } from "@/hooks/filterHooks/useFilters";
+import { BrandName } from "@/lib/consts";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: ParamsProps) {
+    const { data } = await api.category.findBySlug(params.slug);
+    const categoryData = data[0];
+
+    return {
+        title: `${categoryData.attributes.title}`,
+        description: categoryData.attributes.description,
+    } as Metadata;
+}
 
 export type ParamsProps = {
     params: {
