@@ -17,31 +17,14 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { HorizontalProductCard } from "@/components/Product/Product";
-import { ProductCartItem } from "@/app/api/basket/route";
+import useBasket from "@/hooks/useBasket";
 
 export default function Cart() {
-    const [cartData, setCartData] = useState<ProductCartItem[]>([]);
+    const { basketProducts } = useBasket();
 
-    const addProduct = () =>{
-        fetch("/api/basket",{
-            method: "POST",
-            headers: {
-                'Content-Type': 'application'
-            },
-            body: JSON.stringify({count: 1, id: 4242} as ProductCartItem)
-        })
-    }
-    useEffect(() => {
-        fetch("/api/basket")
-            .then((res) => res.json())
-            .then((data) => {
-                console.log("data", data);
-            });
-
-            addProduct()
-    }, []);
+    console.log("basketProducts", basketProducts);
     return (
         <>
             <Sheet>

@@ -6,6 +6,7 @@ import { Chivo_Mono, Poppins } from "next/font/google";
 import Header from "./Header/Header";
 import { TooltipProvider } from "../ui/tooltip";
 import { Category } from "@/services/api/category/types";
+import { BasketClientProvider } from "../Providers/Providers";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -21,13 +22,15 @@ const Layout = ({
 }) => {
     return (
         <React.Fragment>
-            <TooltipProvider>
-                <div className={poppins.className}>
-                    <Header navData={navData} />
-                    {children}
-                    <Footer />
-                </div>
-            </TooltipProvider>
+            <BasketClientProvider>
+                <TooltipProvider>
+                    <div className={poppins.className}>
+                        <Header navData={navData} />
+                        {children}
+                        <Footer />
+                    </div>
+                </TooltipProvider>
+            </BasketClientProvider>
         </React.Fragment>
     );
 };
