@@ -1,4 +1,4 @@
-import { ProductCard } from "@/components/Product/Product";
+import { ProductCard } from "@/components/Product/Cards/ProductCard";
 import SectionTitle from "@/components/ui/section-title";
 import { Product } from "@/services/api/product/types";
 import React from "react";

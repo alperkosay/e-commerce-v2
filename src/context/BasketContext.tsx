@@ -2,9 +2,16 @@ import api from "@/services/api";
 import { Product } from "@/services/api/product/types";
 import React, { createContext, useEffect, useState } from "react";
 
+export type StorageProduct = {
+    id: number;
+    count: number;
+};
+
 type BasketContextType = {
-    basketProduct: Product[];
-    setBasketProduct: React.Dispatch<React.SetStateAction<Product[]>>;
+    basketProducts: Product[];
+    setBasketProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+    lsProducts: StorageProduct[];
+    setLsProducts: React.Dispatch<React.SetStateAction<StorageProduct[]>>;
 };
 
 export const BasketContext = createContext<BasketContextType | undefined>(
@@ -13,19 +20,17 @@ export const BasketContext = createContext<BasketContextType | undefined>(
 
 export const basketStorageKey = "basket";
 
-export type StorageProduct = {
-    id: number;
-    count: number;
-};
-
 export const BasketProvider = ({ children }: { children: React.ReactNode }) => {
-    const [basketProduct, setBasketProduct] = useState<Product[]>([]);
+    const [basketProducts, setBasketProducts] = useState<Product[]>([]);
+    const [lsProducts, setLsProducts] = useState<StorageProduct[]>([]);
 
     return (
         <BasketContext.Provider
             value={{
-                basketProduct,
-                setBasketProduct,
+                basketProducts,
+                setBasketProducts,
+                lsProducts,
+                setLsProducts,
             }}
         >
             {children}

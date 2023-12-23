@@ -16,11 +16,8 @@ import useKeyClose from "@/hooks/useKeyClose";
 import { cn } from "@/lib/utils";
 import { Product } from "@/services/api/product/types";
 import api from "@/services/api";
-import {
-    ProductCard,
-    ProductCardSkeleton,
-    ProductSearchCard,
-} from "@/components/Product/Product";
+import { ProductCardSkeleton } from "@/components/Product/Product";
+import ProductSearchCard from "@/components/Product/Cards/ProductSearchCard";
 
 export default function Search({ className }: { className?: string }) {
     const searchAreaRef = useRef<HTMLDivElement>(null);

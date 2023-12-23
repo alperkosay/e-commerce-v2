@@ -1,10 +1,10 @@
 import CategoryBreadcrumb from "@/components/Breadcrumbs/CategoryBreadcrumb";
 import ProductImageSlider from "@/components/Product/ProductImageSlider";
+import AddToCart from "@/components/ui/add-to-cart";
 import { Button } from "@/components/ui/button";
 import Price from "@/components/ui/price";
 import ProductCount from "@/components/ui/product-count";
 import { Separator } from "@/components/ui/separator";
-import { BrandName } from "@/lib/consts";
 import api from "@/services/api";
 import { Metadata } from "next";
 
@@ -57,8 +57,8 @@ export default async function page({ params }: PageProps) {
                                 priceSize="3xl"
                             />
                             <div className="flex my-4 gap-4">
-                                <ProductCount />
-                                <Button>Sepete Ekle</Button>
+                                <ProductCount productID={productData.id} />
+                                <AddToCart id={productData.id} count={1} />
                             </div>
                         </div>
                     </div>

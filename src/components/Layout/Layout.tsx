@@ -7,6 +7,7 @@ import Header from "./Header/Header";
 import { TooltipProvider } from "../ui/tooltip";
 import { Category } from "@/services/api/category/types";
 import { BasketClientProvider } from "../Providers/Providers";
+import { Toaster } from "../ui/toaster";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -29,6 +30,7 @@ const Layout = ({
                         {children}
                         <Footer />
                     </div>
+                    <Toaster />
                 </TooltipProvider>
             </BasketClientProvider>
         </React.Fragment>

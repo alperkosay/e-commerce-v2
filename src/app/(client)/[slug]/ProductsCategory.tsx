@@ -1,4 +1,4 @@
-import { ProductCard } from "@/components/Product/Product";
+import { ProductCard } from "@/components/Product/Cards/ProductCard";
 import api from "@/services/api";
 import React from "react";
 import { ParamsProps } from "./page";

@@ -27,7 +27,7 @@ export class ApiService<T> {
             populate: "*",
         });
 
-        return await fetcher<T>(`${this.endpoint.singular}/${id}?${qsById}`);
+        return await fetcher<T>(`${this.endpoint.plural}/${id}?${qsById}`);
     }
 
     public async findBySlug(slug: string) {
@@ -64,6 +64,4 @@ export class ApiService<T> {
 
         return await fetcher<T[]>(`${this.endpoint.plural}?${_qs}`);
     }
-
-    
 }
