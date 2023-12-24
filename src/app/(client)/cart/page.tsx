@@ -32,8 +32,9 @@ export default async function page() {
           <div className="flex gap-10">
             <div className="space-y-2 flex-1">
               <Suspense
-                fallback={[...Array(1)].map((_) => (
-                  <Skeleton className="w-full h-20" />
+                key={Math.random()}
+                fallback={[...Array(1)].map((_, index) => (
+                  <Skeleton className="w-full h-20" key={index} />
                 ))}
               >
                 <CartProducts />
