@@ -1,7 +1,11 @@
+import { comparePassword } from "@/lib/bcrypt";
+import { signInSchema } from "@/lib/validations/auth";
 import api from "@/services/api";
-import NextAuth from "next-auth"
+import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-const handler = NextAuth({
+
+
+export const authOptions: AuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -10,24 +14,44 @@ const handler = NextAuth({
                 password: { label: "password", type: "password" }
             },
             async authorize(credentials, req) {
-                if (!credentials?.username && !credentials?.password) throw new Error("Eksik");
-                const user = await api.auth.findByCredentials({
-                    username: credentials?.username,
-                    password: credentials?.password
-                });
-                console.log('user', user)
+                signInSchema.parse(credentials)
+
+                // Get user & check if exists
+                const user = await api.auth.findUserByName(credentials?.username!);
                 if (!user) {
                     return null
                 }
 
+                //Check if password match
+                const passwordMatch = comparePassword(credentials?.password!, user.attributes.password)
+                if (!passwordMatch) {
+                    return null
+                }
 
                 return {
                     id: user.id.toString(),
                     name: user.attributes.username,
+                    role: user.attributes.Role
                 }
             },
         })
-    ]
-})
+    ],
+    callbacks: {
+
+        async jwt({ token, user }) {
+            if (user) token.role = user.role;
+            return token
+        },
+        async session({ session, token }) {
+            session.user.role = token.role
+            return session;
+        },
+    },
+    pages: {
+        signIn: "/sign-in",
+    }
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

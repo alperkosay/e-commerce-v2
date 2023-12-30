@@ -11,6 +11,6 @@ export interface User {
         password: string;
         blocked?: boolean;
         email: string;
-        Role?: Role;
+        Role: Role;
     };
 }
