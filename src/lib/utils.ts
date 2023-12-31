@@ -60,3 +60,17 @@ export function priceFormatter(price: number) {
 
     return formatter.format(price);
 }
+
+
+export function getFirstCharactersOfText(text?: string) {
+    if (!text) {
+        return null
+    }
+
+    const words = text.split(' ');
+
+    // Her kelimenin ilk harfini al
+    const firsCharacters = words.map(word => word.charAt(0));
+
+    return firsCharacters.join('');
+}

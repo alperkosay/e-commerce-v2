@@ -1,5 +1,5 @@
 import { ProductCardSkeleton } from "@/components/Product/Product";
-import Products from "./Products";
+import Products from "./_components/Products";
 import { Suspense } from "react";
 import ProductGrid from "@/components/Sections/Product/ProductGrid";
 

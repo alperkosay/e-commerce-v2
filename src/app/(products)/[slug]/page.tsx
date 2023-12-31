@@ -6,10 +6,15 @@ import api from "@/services/api";
 import { ParamType } from "@/hooks/filterHooks/useFilters";
 import { BrandName } from "@/lib/consts";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: ParamsProps) {
   const { data } = await api.category.findBySlug(params.slug);
   const categoryData = data[0];
+
+  if (!categoryData) {
+    return notFound();
+  }
 
   return {
     title: `${categoryData.attributes.title}`,

@@ -12,6 +12,8 @@ import { User2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+
+import usernavigations from "@/mocks/usernavigations";
 export default function UserMenu() {
   const { data, status, update } = useSession();
 
@@ -39,9 +41,11 @@ export default function UserMenu() {
           <>
             <DropdownMenuLabel>{data?.user?.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href={"/account"}>Hesabım</Link>
-            </DropdownMenuItem>
+            {Object.entries(usernavigations).map((entry, index) => (
+              <DropdownMenuItem asChild key={index}>
+                <Link href={entry[1].href}>{entry[1].title}</Link>
+              </DropdownMenuItem>
+            ))}
             <DropdownMenuItem onClick={() => signOut()}>
               Çıkış Yap
             </DropdownMenuItem>

@@ -1,3 +1,4 @@
+import { Media } from "../types";
 
 export enum Role {
     Admin = 'admin',
@@ -8,9 +9,13 @@ export interface User {
     id: number;
     attributes: {
         createdAt: Date; updatedAt: Date; publishedAt?: Date; username: string;
-        password: string;
         blocked?: boolean;
         email: string;
-        Role: Role;
+        Role?: Role;
+        password: string;
+        name?: string;
+        surname?: string;
+        profilePicture?: { data: Media };
+        phone?: string;
     };
 }
