@@ -1,26 +1,83 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  UserInformation,
+  userInformationsSchema,
+} from "@/lib/validations/user-informations";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { updateUserInformation } from "@/server/actions/user-information";
 
 export default function AccountInformationForm() {
   const session = useSession();
+  const userForm = useForm<UserInformation>({
+    resolver: zodResolver(userInformationsSchema),
+
+    values: {
+      username: session.data?.user.name || "",
+      email: session.data?.user.email || "",
+    },
+  });
+  const { isSubmitting } = userForm.formState;
 
   if (session.status === "loading") {
     return <AccountInformationFormSkeleton />;
   }
 
-  return (
-    <form className="space-y-4">
-      <Input
-        placeholder="Kullanıcı adı"
-        defaultValue={session.data?.user.name!}
-      />
-      <Input placeholder="Eposta" defaultValue={session.data?.user.email!} />
+  const informationFormSubmit = async (values: UserInformation) => {
+    const data = await updateUserInformation(values);
+    console.log("data", data);
+  };
 
-      <Button>Kaydet</Button>
-    </form>
+  return (
+    <Form {...userForm}>
+      <form
+        className="space-y-4"
+        onSubmit={userForm.handleSubmit(informationFormSubmit)}
+      >
+        <FormField
+          control={userForm.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Kullanıcı adı</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Kullanıcı adı" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={userForm.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Eposta</FormLabel>
+
+              <FormControl>
+                <Input {...field} placeholder="Eposta" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button disabled={isSubmitting}>
+          {isSubmitting ? "Kaydediliyor..." : "Kaydet"}
+        </Button>
+      </form>
+    </Form>
   );
 }
 

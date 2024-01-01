@@ -15,9 +15,9 @@ export default function User() {
   return (
     <div className="flex items-center gap-3">
       <div className="w-14 h-14 overflow-hidden rounded-full bg-muted flex items-center justify-center">
-        {data?.user.image ? (
+        {data?.user.profilePicture ? (
           <Image
-            src={data?.user.image || ""}
+            src={data?.user.profilePicture || ""}
             alt={`${data?.user.name}'s profile picture`}
             width={56}
             height={56}

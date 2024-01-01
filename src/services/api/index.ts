@@ -1,10 +1,10 @@
 import product from "./product";
 import category from "./category";
-import auth from "./auth";
+import user from "./user";
 
 const api = {
-    product,
-    category,
-    auth
+  product,
+  category,
+  user,
 };
 export default api;

@@ -15,11 +15,8 @@ import Link from "next/link";
 
 import usernavigations from "@/mocks/usernavigations";
 export default function UserMenu() {
-  const { data, status, update } = useSession();
+  const { data, status } = useSession();
 
-  useEffect(() => {
-    update();
-  }, []);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
