@@ -8,15 +8,7 @@ export default function Price({
   discountedPrice,
   priceSize = "sm",
   discountedPriceSize = "xs",
-  price,
-  discountedPrice,
-  priceSize = "sm",
-  discountedPriceSize = "xs",
 }: {
-  price: number;
-  discountedPrice?: number;
-  priceSize?: PriceSizes;
-  discountedPriceSize?: PriceSizes;
   price: number;
   discountedPrice?: number;
   priceSize?: PriceSizes;

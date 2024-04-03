@@ -55,7 +55,7 @@ export default function ProductImageSlider({
               className="relative flex items-center justify-center"
             >
               <Image
-                src={data.attributes.url}
+                src={process.env.NEXT_PUBLIC_MEDIA_PREFIX + data.attributes.url}
                 width={data.attributes.width}
                 height={data.attributes.height}
                 alt={data.attributes.alternativeText || "Placeholder"}

@@ -14,7 +14,7 @@ const Layout = ({
   navData,
 }: {
   children: React.ReactNode;
-  navData: Category[];
+  navData?: Category[] | null;
 }) => {
   return (
     <React.Fragment>

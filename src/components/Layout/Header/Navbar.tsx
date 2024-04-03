@@ -14,7 +14,7 @@ import Link from "next/link";
 import { Category } from "@/services/api/category/types";
 import { usePathname } from "next/navigation";
 
-const Navbar = ({ navData }: { navData: Category[] }) => {
+const Navbar = ({ navData }: { navData?: Category[] | null }) => {
   const pathname = usePathname();
 
   return (
@@ -32,7 +32,7 @@ const Navbar = ({ navData }: { navData: Category[] }) => {
                       legacyBehavior
                     >
                       <NavigationMenuLink
-                        className={`p-4 inline-block font-bold ${
+                        className={`inline-block p-4 font-bold ${
                           pathname === `/${data.attributes.slug}`
                             ? "text-primary"
                             : ""
@@ -44,15 +44,15 @@ const Navbar = ({ navData }: { navData: Category[] }) => {
                     </Link>
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="min-h-[400px]">
-                    <div className="flex gap-2 flex-1 w-screen container">
-                      <ul className="grid  lg:grid-cols-3 xl:grid-cols-5 w-full">
+                    <div className="container flex w-screen flex-1 gap-2">
+                      <ul className="grid  w-full lg:grid-cols-3 xl:grid-cols-5">
                         {data.attributes.categories?.data.map(
                           (subMenuData, index) => (
                             <li key={index}>
                               <NavigationMenuLink asChild>
                                 <Link
                                   href={`/${subMenuData.attributes.slug}`}
-                                  className="pt-3 inline-block w-max text-lg text-primary font-semibold"
+                                  className="text-primary inline-block w-max pt-3 text-lg font-semibold"
                                 >
                                   {subMenuData.attributes.title}
                                 </Link>
@@ -64,23 +64,23 @@ const Navbar = ({ navData }: { navData: Category[] }) => {
                                       <NavigationMenuLink asChild>
                                         <Link
                                           href={`/${data.attributes.slug}`}
-                                          className="py-1.5 inline-block w-max"
+                                          className="inline-block w-max py-1.5"
                                         >
                                           {data.attributes.title}
                                         </Link>
                                       </NavigationMenuLink>
                                     </li>
-                                  )
+                                  ),
                                 )}
                               </ul>
                             </li>
-                          )
+                          ),
                         )}
                       </ul>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-              )
+              ),
           )}
         </NavigationMenuList>
       </NavigationMenu>

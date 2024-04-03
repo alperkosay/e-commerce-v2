@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 import Layout from "@/components/Layout/Layout";
 import { ThemeProvider } from "@/components/Providers/Providers";
-import api from "@/services/api";
+import { api } from "@/trpc/server";
 
 export const metadata: Metadata = {
   title: "Alper Koşay",
@@ -20,7 +20,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { data } = await api.category.findMany();
+  const { data } = await api.category.getAllCategories();
 
   return (
     <html lang="en">

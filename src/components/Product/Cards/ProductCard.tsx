@@ -23,7 +23,10 @@ export function ProductCard({ productData }: ProductCardType) {
             (imageData, index) =>
               index === activeImage && (
                 <Image
-                  src={imageData.attributes.url}
+                  src={
+                    process.env.NEXT_PUBLIC_MEDIA_PREFIX +
+                    imageData.attributes.url
+                  }
                   data-src={imageData.attributes.url}
                   width={imageData.attributes.width}
                   height={imageData.attributes.height}

@@ -17,7 +17,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { updateUserInformation } from "@/server/actions/user-information";
+// import { updateUserInformation } from "@/server/actions/user-information";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function AccountInformationForm() {
@@ -38,8 +38,8 @@ export default function AccountInformationForm() {
   }
 
   const informationFormSubmit = async (values: UserInformation) => {
-    const data = await updateUserInformation(values);
-    console.log("data", data?.data);
+    // const data = await updateUserInformation(values);
+    // console.log("data", data?.data);
     toast({
       title: "Bilgiler güncellendi",
     });
@@ -87,5 +87,5 @@ export default function AccountInformationForm() {
 }
 
 export function AccountInformationFormSkeleton() {
-  return <Skeleton className="w-full h-40" />;
+  return <Skeleton className="h-40 w-full" />;
 }
