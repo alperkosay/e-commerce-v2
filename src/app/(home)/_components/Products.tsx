@@ -1,10 +1,12 @@
 import { ProductCard } from "@/components/Product/Cards/ProductCard";
-import api from "@/services/api";
 import React from "react";
 
+import { api } from "@/trpc/server";
+
 export default async function Products() {
-    const { data, error } = await api.product.findMany();
-    return data.map((data, index) => (
-        <ProductCard productData={data} key={index} />
-    ));
+  const productResponse = await api.product.getAll();
+
+  return productResponse.data?.map((data, index) => (
+    <ProductCard productData={data} key={data.id} />
+  ));
 }

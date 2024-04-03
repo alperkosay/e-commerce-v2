@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Price from "@/components/ui/price";
 import ProductCount from "@/components/ui/product-count";
 import { Separator } from "@/components/ui/separator";
-import api from "@/services/api";
+import { api } from "@/trpc/server";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -15,23 +15,27 @@ type PageProps = {
   };
 };
 
-export async function generateMetadata({ params }: PageProps) {
-  const { data } = await api.product.findBySlug(params.slug);
-  const productData = data[0];
+// export async function generateMetadata({ params }: PageProps) {
+//   const { data } = await api.product.findBySlug(params.slug);
+//   const productData = data[0];
 
+//   if (!productData) {
+//     return notFound();
+//   }
+//   return {
+//     title: `${productData.attributes.title}`,
+//     description: productData.attributes.description,
+//   } as Metadata;
+// }
+
+export default async function page({ params }: PageProps) {
+  // const { data } = await api.product.findBySlug(params.slug);
+  // const productData = data[0];
+
+  const productData = await api.product.getBySlug({ slug: params.slug });
   if (!productData) {
     return notFound();
   }
-  return {
-    title: `${productData.attributes.title}`,
-    description: productData.attributes.description,
-  } as Metadata;
-}
-
-export default async function page({ params }: PageProps) {
-  const { data } = await api.product.findBySlug(params.slug);
-  const productData = data[0];
-  
   return (
     <>
       <section className="py-6">
@@ -41,7 +45,7 @@ export default async function page({ params }: PageProps) {
       </section>
       <section>
         <div className="container">
-          <div className="flex flex-col md:grid grid-cols-2 gap-10">
+          <div className="flex grid-cols-2 flex-col gap-10 md:grid">
             <ProductImageSlider
               productImages={productData.attributes.productImages}
             />
@@ -51,7 +55,7 @@ export default async function page({ params }: PageProps) {
                 {productData.attributes.title}
               </h1>
               <Separator className="my-4" />
-              <div className="mt-2 mb-4">
+              <div className="mb-4 mt-2">
                 <p>{productData.attributes.description}</p>
               </div>
               <Price
@@ -60,9 +64,9 @@ export default async function page({ params }: PageProps) {
                 discountedPriceSize="xl"
                 priceSize="3xl"
               />
-              <div className="flex my-4 gap-4">
+              <div className="my-4 flex gap-4">
                 <ProductCount productID={productData.id} />
-                <AddToCart id={productData.id}  count={1} />
+                <AddToCart id={productData.id} count={1} />
               </div>
             </div>
           </div>
