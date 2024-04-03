@@ -4,5 +4,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_STRAPI_BASE_URL: string;
     NEXTAUTH_URL: string;
     NEXTAUTH_SECRET: string;
+    ANONYM_SESSION_SECRET: string;
   }
 }

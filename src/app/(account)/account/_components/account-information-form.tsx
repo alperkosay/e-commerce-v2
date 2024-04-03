@@ -18,9 +18,11 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { updateUserInformation } from "@/server/actions/user-information";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function AccountInformationForm() {
   const session = useSession();
+  const { toast } = useToast();
   const userForm = useForm<UserInformation>({
     resolver: zodResolver(userInformationsSchema),
 
@@ -37,7 +39,10 @@ export default function AccountInformationForm() {
 
   const informationFormSubmit = async (values: UserInformation) => {
     const data = await updateUserInformation(values);
-    console.log("data", data);
+    console.log("data", data?.data);
+    toast({
+      title: "Bilgiler güncellendi",
+    });
   };
 
   return (

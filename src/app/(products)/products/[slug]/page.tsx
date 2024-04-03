@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function page({ params }: PageProps) {
   const { data } = await api.product.findBySlug(params.slug);
   const productData = data[0];
+  
   return (
     <>
       <section className="py-6">
@@ -61,7 +62,7 @@ export default async function page({ params }: PageProps) {
               />
               <div className="flex my-4 gap-4">
                 <ProductCount productID={productData.id} />
-                <AddToCart id={productData.id} count={1} />
+                <AddToCart id={productData.id}  count={1} />
               </div>
             </div>
           </div>

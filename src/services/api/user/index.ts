@@ -75,9 +75,8 @@ class AuthService extends ApiService<User> {
       },
     };
     delete body.data.profilePicture;
-    console.log("body", body);
 
-    return await fetcher(`${this.endpoint.plural}/${id}`, {
+    return await fetcher<User>(`${this.endpoint.plural}/${id}`, {
       method: "PUT",
       headers: {
         Authorization: `bearer ${process.env.AUTH_STRAPI_TOKEN}`,
