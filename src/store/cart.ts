@@ -5,6 +5,9 @@ import { create } from "zustand";
 export interface CartProduct extends Product {
   quantity: number;
 }
+
+type LocalStorageCartItem = { productId: number; quantity: number };
+
 type QuantityState = "increase" | "decrease";
 
 type CartStore = {
@@ -13,11 +16,16 @@ type CartStore = {
     totalPrice: number;
     discountedPrice: number;
   };
-  handleQuantity: (id: number, state: QuantityState) => void;
+  handleQuantity: (
+    id: number,
+    state: QuantityState,
+    customQuantity?: number,
+  ) => void;
   addToBasket: (productId: number, quantity: number) => Promise<boolean>;
   removeFromBasket: (productId: number) => void;
   clearBasket: () => void;
   _updateBasketPrices: (products: CartProduct[]) => void;
+  init: () => Promise<void>;
 };
 
 export const useCartStore = create<CartStore>((set) => ({
@@ -27,10 +35,37 @@ export const useCartStore = create<CartStore>((set) => ({
     discountedPrice: 0,
   },
 
+  init: async () => {
+    const _lsItems = localStorage.getItem("cart");
+
+    if (!_lsItems) {
+      set({ items: [] });
+      return;
+    }
+
+    const ParsedLsItems = JSON.parse(_lsItems) as LocalStorageCartItem[];
+    const items = await Promise.all(
+      ParsedLsItems.map(async (item) => {
+        const { data: productData, error } = await api.product.findById(
+          item.productId,
+        );
+        return { ...productData, quantity: item.quantity };
+      }),
+    );
+
+    set((state) => {
+      state._updateBasketPrices(items);
+      return { items: items };
+    });
+  },
+
   addToBasket: async (productId, quantity) => {
     const { data: productData, error } = await api.product.findById(productId);
+
     if (error) return false;
+
     set((state) => {
+      console.log(state.items);
       const updatedItems = [
         ...state.items,
         {
@@ -38,11 +73,19 @@ export const useCartStore = create<CartStore>((set) => ({
           quantity,
         },
       ];
+      localStorage.setItem(
+        "cart",
+        JSON.stringify([
+          ...JSON.parse(localStorage.getItem("cart") ?? "[]"),
+          { productId, quantity },
+        ]),
+      );
 
       const totalPrice = calculateTotalPrice(updatedItems);
       const discountedPrice = calculateDiscountedPrice(updatedItems);
       return {
         items: updatedItems,
+
         basketPrices: {
           totalPrice,
           discountedPrice,
@@ -67,21 +110,50 @@ export const useCartStore = create<CartStore>((set) => ({
   removeFromBasket: (productId) =>
     set((state) => {
       const updatedItems = state.items.filter((item) => item.id !== productId);
+      const lsItems = JSON.parse(
+        localStorage.getItem("cart") ?? "[]",
+      ) as LocalStorageCartItem[];
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(lsItems.filter((item) => item.productId !== productId)),
+      );
+
       state._updateBasketPrices(updatedItems);
       return {
         items: updatedItems,
       };
     }),
-  handleQuantity: (id, handleState) => {
+  handleQuantity: (id, handleState, customQuantity) => {
     set((state) => {
       const products = state.items.map((product) => {
         return product.id === id
           ? {
               ...product,
-              quantity: handleQuantityByState(product.quantity, handleState),
+              quantity:
+                customQuantity ??
+                handleQuantityByState(product.quantity, handleState),
             }
           : product;
       });
+      const lsItems = JSON.parse(
+        localStorage.getItem("cart") ?? "[]",
+      ) as LocalStorageCartItem[];
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(
+          lsItems.map((product) => {
+            return product.productId === id
+              ? {
+                  ...product,
+                  quantity:
+                    customQuantity ??
+                    handleQuantityByState(product.quantity, handleState),
+                }
+              : product;
+          }),
+        ),
+      );
+
       state._updateBasketPrices(products);
 
       return {
@@ -89,7 +161,11 @@ export const useCartStore = create<CartStore>((set) => ({
       };
     });
   },
-  clearBasket: () => set({ items: [] }),
+  clearBasket: () =>
+    set((state) => {
+      localStorage.setItem("cart", JSON.stringify([]));
+      return { items: [] };
+    }),
 }));
 
 const calculateTotalPrice = (items: CartProduct[]): number => {

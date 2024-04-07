@@ -40,6 +40,9 @@ export default function AccountInformationForm() {
   const informationFormSubmit = async (values: UserInformation) => {
     // const data = await updateUserInformation(values);
     // console.log("data", data?.data);
+    console.log(values);
+    await session.update(values);
+
     toast({
       title: "Bilgiler güncellendi",
     });

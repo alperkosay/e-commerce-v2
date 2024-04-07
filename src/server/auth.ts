@@ -94,6 +94,9 @@ export const authOptions: NextAuthOptions = {
      */
   ],
   secret: env.NEXTAUTH_SECRET ?? "asdasd",
+  pages: {
+    signIn: "/sign-in",
+  },
 };
 
 /**

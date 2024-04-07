@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import Layout from "@/components/Layout/Layout";
 import { ThemeProvider } from "@/components/Providers/Providers";
 import { api } from "@/trpc/server";
+import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
   title: "Alper Koşay",
@@ -25,14 +26,16 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          // disableTransitionOnChange
-        >
-          <Layout navData={data}>{children}</Layout>
-        </ThemeProvider>
+        <TRPCReactProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            // disableTransitionOnChange
+          >
+            <Layout navData={data}>{children}</Layout>
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );

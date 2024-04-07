@@ -7,6 +7,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { Button } from "../ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { env } from "@/env";
 
 export default function ProductImageSlider({
   productImages,
@@ -28,13 +29,13 @@ export default function ProductImageSlider({
             renderBullet: function (index, cls) {
               const productImage = productImages!.data[index];
               return `
-                           <span class="${cls} !w-24 !h-24 !bg-transparent">
+                           <span class="${cls} !w-20 !h-20 !bg-transparent">
                              <img
-                                src="${productImage.attributes.formats.thumbnail.url}"
-                                width="${productImage.attributes.formats.thumbnail.width}"
-                                height="${productImage.attributes.formats.thumbnail.height}"
+                                src="${env.NEXT_PUBLIC_MEDIA_PREFIX + productImage?.attributes.formats.thumbnail.url}"
+                                width="${productImage?.attributes.formats.thumbnail.width}"
+                                height="${productImage?.attributes.formats.thumbnail.height}"
                                 alt="
-                                    ${productImage.attributes.alternativeText}
+                                    ${productImage?.attributes.alternativeText}
                                 "
                                 class="w-full h-full object-contain"
                                 aria-label="hidden"
@@ -55,7 +56,7 @@ export default function ProductImageSlider({
               className="relative flex items-center justify-center"
             >
               <Image
-                src={process.env.NEXT_PUBLIC_MEDIA_PREFIX + data.attributes.url}
+                src={env.NEXT_PUBLIC_MEDIA_PREFIX + data.attributes.url}
                 width={data.attributes.width}
                 height={data.attributes.height}
                 alt={data.attributes.alternativeText || "Placeholder"}
@@ -65,21 +66,21 @@ export default function ProductImageSlider({
           ))}
         </Swiper>
         <Button
-          className="product-image-slider-prev absolute top-1/2 -translate-y-1/2 left-2 z-10 rounded-full"
+          className="product-image-slider-prev absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
           size={"icon"}
           variant={"secondary"}
         >
           <ArrowLeft size={64} />
         </Button>
         <Button
-          className="product-image-slider-next absolute top-1/2 -translate-y-1/2 right-2 z-10 rounded-full"
+          className="product-image-slider-next absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
           size={"icon"}
           variant={"secondary"}
         >
           <ArrowRight size={64} />
         </Button>
       </div>
-      <div className="product-image-slider-pagination w-full items-center flex gap-2 justify-center my-4"></div>
+      <div className="product-image-slider-pagination my-4 flex w-full items-center justify-center gap-2"></div>
     </div>
   );
 }

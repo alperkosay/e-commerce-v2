@@ -14,7 +14,9 @@ export default function ProductCount({ productID }: { productID: number }) {
       <Button
         size={"icon"}
         className="rounded-r-none"
-        onClick={() => handleQuantity(productID, "decrease")}
+        onClick={() => {
+          handleQuantity(productID, "decrease");
+        }}
       >
         <Minus />
       </Button>
@@ -25,17 +27,21 @@ export default function ProductCount({ productID }: { productID: number }) {
           min={1}
           minLength={1}
           className="rounded-l-none rounded-r-none text-center"
-          defaultValue={1}
           onChange={(e) => {
-            // setCount(Number(e.target.value));
+            if (Number(e.target.value) <= 0) {
+              return null;
+            }
+            handleQuantity(productID, "decrease", Number(e.target.value));
           }}
         />
-        <p className="text-center text-sm mt-1">Adet</p>
+        <p className="mt-1 text-center text-sm">Adet</p>
       </div>
       <Button
         size={"icon"}
         className="rounded-l-none"
-        onClick={() => handleQuantity(productID, "increase")}
+        onClick={() => {
+          handleQuantity(productID, "increase");
+        }}
       >
         <Plus />
       </Button>

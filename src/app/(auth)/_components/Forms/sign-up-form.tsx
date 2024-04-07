@@ -1,5 +1,5 @@
 "use client";
-import { SignIn, SignUp, signUpSchema } from "@/lib/validations/auth";
+import { SignUp, signUpSchema } from "@/lib/validations/auth";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,8 +14,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { api } from "@/trpc/react";
 
 export default function SignUpForm() {
+  const createUserMutation = api.user.createUser.useMutation();
+
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<SignUp>({
@@ -27,15 +30,16 @@ export default function SignUpForm() {
       passwordRepeat: "",
     },
   });
+
   async function onSubmit(values: SignUp) {
     if (values.password === values.passwordRepeat) {
       delete values.passwordRepeat;
-      const res = await fetch("/api/auth/sign-up", {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
-
-      if (res.status === 200) {
+      // const res = await fetch("/api/auth/sign-up", {
+      //   method: "POST",
+      //   body: JSON.stringify(values),
+      // });
+      await createUserMutation.mutateAsync(values);
+      if (createUserMutation.isSuccess) {
         toast({
           title: "Kayıt başarılı!",
         });
@@ -113,7 +117,7 @@ export default function SignUpForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Giriş Yap</Button>
+          <Button type="submit">Kayıt Ol</Button>
         </form>
       </Form>
     </>

@@ -5,23 +5,12 @@ import SectionTitle from "@/components/ui/section-title";
 
 import dynamic from "next/dynamic";
 import { CheckoutSidebarSkeleton } from "./_components/CheckoutSidebar";
-import { ProductSliderSkeleton } from "@/components/Product/ProductSlider";
-import api from "@/services/api";
 const CheckoutSidebar = dynamic(() => import("./_components/CheckoutSidebar"), {
   ssr: false,
   loading: () => <CheckoutSidebarSkeleton />,
 });
 
-const ProductSlider = dynamic(
-  () => import("@/components/Product/ProductSlider"),
-  {
-    ssr: false,
-    loading: () => <ProductSliderSkeleton />,
-  }
-);
-
 export default async function page() {
-  const { data: products } = await api.product.findMany();
   return (
     <main className="min-h-screen py-6">
       <section className="mb-40">
@@ -30,11 +19,11 @@ export default async function page() {
             <h1>Sepet</h1>
           </SectionTitle>
           <div className="flex gap-10">
-            <div className="space-y-2 flex-1">
+            <div className="flex-1 space-y-2">
               <Suspense
                 key={Math.random()}
                 fallback={[...Array(1)].map((_, index) => (
-                  <Skeleton className="w-full h-20" key={index} />
+                  <Skeleton className="h-20 w-full" key={index} />
                 ))}
               >
                 <CartProducts />
@@ -42,14 +31,6 @@ export default async function page() {
             </div>
             <CheckoutSidebar />
           </div>
-        </div>
-      </section>
-      <section className="my-20">
-        <div className="container">
-          <SectionTitle>
-            <h2>Diğer ürünler</h2>
-          </SectionTitle>
-          <ProductSlider products={products} />
         </div>
       </section>
     </main>

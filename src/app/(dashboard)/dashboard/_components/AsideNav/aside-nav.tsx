@@ -1,13 +1,12 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { getServerAuthSession } from "@/server/auth";
 import React from "react";
 
-export default function AsideNav() {
-  const { data, status } = useSession();
-
+export default async function AsideNav() {
+  const session = await getServerAuthSession();
   return (
     <aside>
-      <div className="h-screen border w-60"></div>
+      <div className="h-screen w-60 border">{session?.user.name}</div>
     </aside>
   );
 }

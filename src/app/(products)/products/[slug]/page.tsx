@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { api } from "@/trpc/server";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import HandleAddToCart from "./_components/handle-add-to-cart";
 
 type PageProps = {
   params: {
@@ -51,7 +52,7 @@ export default async function page({ params }: PageProps) {
             />
 
             <div>
-              <h1 className="text-bold text-2xl">
+              <h1 className="text-2xl font-bold">
                 {productData.attributes.title}
               </h1>
               <Separator className="my-4" />
@@ -64,10 +65,7 @@ export default async function page({ params }: PageProps) {
                 discountedPriceSize="xl"
                 priceSize="3xl"
               />
-              <div className="my-4 flex gap-4">
-                <ProductCount productID={productData.id} />
-                <AddToCart id={productData.id} count={1} />
-              </div>
+              <HandleAddToCart productId={productData.id} />
             </div>
           </div>
         </div>

@@ -21,11 +21,15 @@ import Link from "next/link";
 import { useCartStore } from "@/store/cart";
 
 export default function Cart() {
-  const { items,basketPrices } = useCartStore();
+  const { items, basketPrices, init } = useCartStore();
+  useEffect(() => {
+    const initializeCart = async () => {
+      await init();
+    };
 
-  useEffect(() =>{
-fetch("/api/cart",{method: "POST"})
-  },[])
+    initializeCart();
+  }, []); // Boş dependency array, yalnızca bir kere çalıştırılmasını sağlar.
+
   return (
     <>
       <Sheet>
@@ -34,7 +38,7 @@ fetch("/api/cart",{method: "POST"})
             <ShoppingCartIcon />
             {!!items.length && (
               <Badge
-                className="absolute -top-2 -right-2 pointer-events-none cursor-none"
+                className="pointer-events-none absolute -right-2 -top-2 cursor-none"
                 variant={"secondary"}
               >
                 {items.length}
@@ -43,7 +47,7 @@ fetch("/api/cart",{method: "POST"})
           </Button>
         </SheetTrigger>
         <SheetContent>
-          <div className="grid grid-rows-[auto_1fr_auto] h-full">
+          <div className="grid h-full grid-rows-[auto_1fr_auto]">
             <SheetHeader>
               <SheetTitle>Sepetiniz</SheetTitle>
             </SheetHeader>
@@ -76,5 +80,5 @@ fetch("/api/cart",{method: "POST"})
 }
 
 export function CartSkeleton() {
-  return <Skeleton className="w-10 h-10" />;
+  return <Skeleton className="h-10 w-10" />;
 }

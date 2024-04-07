@@ -52,7 +52,7 @@ const Navbar = ({ navData }: { navData?: Category[] | null }) => {
                               <NavigationMenuLink asChild>
                                 <Link
                                   href={`/${subMenuData.attributes.slug}`}
-                                  className="text-primary inline-block w-max pt-3 text-lg font-semibold"
+                                  className="inline-block w-max pt-3 text-lg font-semibold text-primary"
                                 >
                                   {subMenuData.attributes.title}
                                 </Link>

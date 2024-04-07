@@ -7,19 +7,21 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import ProductCount from "@/components/ui/product-count";
 import { CartProduct, useCartStore } from "@/store/cart";
+import { env } from "@/env";
 
 export function BasketProductCard({
   productData,
 }: {
   productData: CartProduct;
 }) {
-  const { removeFromBasket } = useCartStore();
+  const { removeFromBasket, items } = useCartStore();
+  const product = items.find((x) => x.id === productData.id);
 
   return (
     <div className="flex border border-muted p-2">
       <Link
         href={`/products/${productData.attributes.slug}`}
-        className="flex flex-1 flex-row group/product"
+        className="group/product flex flex-1 flex-row"
         title={productData.attributes.title}
       >
         <div className="relative flex overflow-hidden">
@@ -27,29 +29,34 @@ export function BasketProductCard({
             (imageData, index) =>
               index === 0 && (
                 <Image
-                  src={imageData.attributes.url}
+                  src={env.NEXT_PUBLIC_MEDIA_PREFIX + imageData.attributes.url}
                   width={imageData.attributes.width}
                   height={imageData.attributes.height}
                   alt={imageData.attributes.alternativeText || ""}
                   className={`w-20 object-contain`}
                   key={index}
                 />
-              )
+              ),
           )}
         </div>
-        <div className="px-2 flex flex-col flex-1 gap-2">
-          <span className="text-base font-medium flex-1 line-clamp-2">
+        <div className="flex flex-1 flex-col gap-2 px-2">
+          <span className="line-clamp-2 flex-1 text-base font-medium">
             {productData.attributes.title}
           </span>
           <Price
-            price={productData.attributes.price}
-            discountedPrice={productData.attributes.discountedPrice}
+            price={productData.attributes.price * (product?.quantity ?? 1)}
+            discountedPrice={
+              productData.attributes.discountedPrice
+                ? productData.attributes.discountedPrice *
+                  (product?.quantity ?? 1)
+                : undefined
+            }
           />
         </div>
       </Link>
       <div className="flex flex-col items-end gap-3">
         <Button
-          className="w-6 h-6"
+          className="h-6 w-6"
           size={"icon"}
           variant={"destructive"}
           onClick={() => {
